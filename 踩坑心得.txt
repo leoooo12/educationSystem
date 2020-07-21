@@ -1,0 +1,39 @@
+请大家仔细阅读这些git操作!
+
+问题1
+在上传文件到远程仓库时遇到了fatal: Could not read from remote repository. 
+Please make sure you have the correct access rights and the repository exists.的问题
+廖老师是通过 git@github.com:michaelliao/learngit.git 关联的，如果已经用git@关联，则可以在.git目录下的config文件中，
+把 url = 后面的内容改为https类型的即可。 
+https类型的格式为： url = https://github.com/xiexiexiekuan/hello.git 
+原格式为： url = git@github.com:xiexieixekuan/hello.git 然后再上传即可，按要求输入密码登录。
+
+问题2
+git pull origin时出现冲突
+原因：同一个文件，本地与远程不一致，直接pull时报错
+解决：放弃本地修改，使远程库内容强制覆盖本地代码
+git fetch --all　　 只是下载代码到本地，不进行合并操作
+git reset --hard origin/master 　　把HEAD指向最新下载的版本
+
+问题3
+当别人先一步修改了he.txt时，你再修改提交：
+git add he.txt
+git commit -m "456789"
+git push origin master    然后会报错版本不一致，建议你先pull
+此时可以git pull origin，报错见上文，
+建议git pull origin master    会自动合并本地修改与远程修改，然后手动打开解决冲突
+手动解决冲突后，重新
+git add he.txt
+git commit -m "456789"
+git push origin master
+
+问题4
+连接远程库
+建议用 git@xxx 格式
+用http:xxx格式的话每次pull都会让你登录github，比较麻烦
+查看远程连接    git remote -v
+git取消与远程仓库的连接     git remote remove origin
+编辑txt文本，不要用自带的记事本，用notepad++，编码格式设置为UTF-8-BOM
+
+问题5
+欢迎大家继续补充坑！！！！！
