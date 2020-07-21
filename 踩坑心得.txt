@@ -28,12 +28,15 @@ git commit -m "456789"
 git push origin master
 
 问题4
-连接远程库
-建议用 git@xxx 格式
-用http:xxx格式的话每次pull都会让你登录github，比较麻烦
+连接远程库，建议用 git@xxx 格式
+用http:xxx格式的话每次pull都会让你登录github，比较麻烦。
+解决输入密码方案：https://blog.csdn.net/qq_34306360/article/details/80275277
+记得重启电脑
+
+问题5
 查看远程连接    git remote -v
 git取消与远程仓库的连接     git remote remove origin
 编辑txt文本，不要用自带的记事本，用notepad++，编码格式设置为UTF-8-BOM
 
-问题5
+问题6
 欢迎大家继续补充坑！！！！！
