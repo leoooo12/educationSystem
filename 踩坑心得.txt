@@ -1,4 +1,4 @@
-请大家仔细阅读这些git操作!!!
+﻿请大家仔细阅读这些git操作!!!
 
 问题1
 在上传文件到远程仓库时遇到了fatal: Could not read from remote repository. 
@@ -39,4 +39,15 @@ git取消与远程仓库的连接     git remote remove origin
 编辑txt文本，不要用自带的记事本，用notepad++，编码格式设置为UTF-8-BOM
 
 问题6
+进入Github网站加载不出来页面
+打开C:\Windows\System32\drivers\etc中的hosts
+添加
+    #github
+    140.82.113.4 github.com
+    199.232.5.194 github.global.ssl.fastly.net
+保存
+打开命令行，输入：ipconfig。重新打开浏览器，github进入完成
+ps:好像写了废话，进不了github看不见这个，装死.jpg
+
+
 欢迎大家继续补充坑！！！！！
