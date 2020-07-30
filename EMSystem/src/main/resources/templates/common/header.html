@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+    <meta charset="UTF-8">
+    <title><th:block th:text="${title}"></th:block></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- BOOTSTRAP STYLES-->
+    <link href="/res/assets/css/bootstrap.css" rel="stylesheet" />
+    <!--Time Picker-->
+    <link href="/res/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="/res/assets/css/font-awesome.css" rel="stylesheet" />
+    <!--CUSTOM BASIC STYLES-->
+    <link href="/res/assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="/res/assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />-->
+    <!-- ECharts SCRIPTS -->
+    <script src="/res/js/echarts.js"></script>
+    <script>
+        function change(url){
+            $('#page-inner').load(url)
+        }
+        function logout(){
+            con=confirm("安全退出系统？");
+            if(con==true) {
+                window.location.href = "/logout";
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="nav" th:fragment="nav">
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/res/assets/index">考试报名及考务管理系统</a>
+        </div>
+
+        <div class="header-right">
+
+            <a href="/res/assets/message-task" class="btn btn-info" title="New Message"><b>30 </b><i class="fa fa-envelope-o fa-2x"></i></a>
+            <a href="/res/assets/message-task" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>
+            <a href="/res/assets/login" class="btn btn-danger" title="Logout"><i class="fa fa-exclamation-circle fa-2x"></i></a>
+
+        </div>
+    </nav>
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li>
+                    <div class="user-img-div">
+                        <th:block th:if="${session.user.perimage!=null&&session.user.perimage!=''}">
+                        <img th:src="'/img/'+${session.user.perimage}" class="img-thumbnail" />
+                        </th:block>
+                        <th:block th:unless="${session.user.perimage!=null&&session.user.perimage!=''}">
+                        <img src="/res/assets/img/user.png" class="img-thumbnail" />
+                        </th:block>
+                        <div class="inner-text" th:object="${session.user}">
+                            <span th:text="*{username}"></span>
+                            <br />用户角色：
+                            <th:block th:switch="*{role}">
+                                <span th:case="0">管理员</span>
+                                <span th:case="1">考务人员</span>
+                                <span th:case="2">考生</span>
+                             </th:block>
+                            <br />
+                            <small onclick="logout()">注销</small>
+                        </div>
+                    </div>
+
+                </li>
+                <!-- /. 系统用户头 -->
+                <li>
+                    <a href="/home" class="active-menu"><i class="fa fa-dashboard "></i>主页</a>
+                </li>
+                <!--role:0管理员，1老师，2考生-->
+                <!--考生个人导航条-->
+                <th:block th:if="${session.user.role}==2">
+                <li>
+                    <a href="#"><i class="fa fa-desktop "></i>社会考试信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/exam/list"><i class="fa fa-toggle-on"></i>考试列表</a>
+                        </li>
+                        <!--<li>-->
+                            <!--<a onclick="change('admin/notification')"><i class="fa fa-bell "></i>Notifications</a>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+                <!--<li>-->
+                    <!--<a href="exam/signup"><i class="fa fa-anchor "></i>考试报名</a>-->
+                <!--</li>-->
+                <li>
+                    <a href="#"><i class="fa fa-yelp "></i>社会考试管理<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/examinee/examList?pay=0"><i class="fa fa-coffee"></i>待缴费</a>
+                        </li>
+                        <li>
+                            <a href="/examinee/examList?pay=1"><i class="fa fa-coffee"></i>已缴费</a>
+                        </li>
+                        <li>
+                            <a href="/examinee/examList?pay=1&examed=0"><i class="fa fa-coffee"></i>已考</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/examinee/score"><i class="fa fa-flash "></i>成绩查询</a>
+                </li>
+                <li>
+                    <a href="/examinee/myInfo"><i class="fa fa-bicycle "></i>个人信息 </a>
+                </li>
+                </th:block>
+                <!--老师个人导航条-->
+                <th:block th:if="${session.user.role}==1">
+                <li>
+                    <a href="/manager/entry"><i class="fa fa-bicycle "></i>信息录入 </a>
+                </li>
+                <li>
+                    <a href="/manager/statistical"><i class="fa fa-bicycle "></i>报名信息统计 </a>
+                </li>
+                <li>
+                    <a href="/manager/manage"><i class="fa fa-bicycle "></i>信息管理 </a>
+                </li>
+                <li>
+                    <a href="/manager/myInfo"><i class="fa fa-bicycle "></i>个人信息 </a>
+                </li>
+                </th:block>
+                <!--管理员个人导航条-->
+                <th:block th:if="${session.user.role}==0">
+                    <li>
+                        <a href="#"><i class="fa fa-bicycle "></i>社会考试管理 <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/admin/a/list"><i class="fa fa-toggle-on"></i>考试列表</a>
+                            </li>
+                            <li>
+                                <a href="/admin/outed"><i class="fa fa-toggle-on"></i>过期列表</a>
+                            </li>
+                            <li>
+                                <a href="/admin/a/updateExam"><i class="fa fa-bell "></i>添加考试</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bicycle "></i>报名信息管理 <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/admin/examineeInfo"><i class="fa fa-bicycle "></i>信息管理查看</a>
+                            </li>
+                            <li>
+                                <a href="/admin/a/createNum"><i class="fa fa-bell "></i>考号生成</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/user?role=2"><i class="fa fa-bell "></i>用户管理</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bicycle "></i>考点管理与考场编排 <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/admin/search"><i class="fa fa-toggle-on"></i>考点列表</a>
+                            </li>
+                            <li>
+                                <a href="/admin/a/updateRoom"><i class="fa fa-bell "></i>新增考点</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/searchExam"><i class="fa fa-bicycle "></i>考试成绩管理</a>
+                    </li>
+                    <li>
+                        <a href="/admin/myInfo"><i class="fa fa-bicycle "></i>个人信息 </a>
+                    </li>
+                </th:block>
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+</div>
+</body>
+</html>

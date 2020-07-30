@@ -1,0 +1,62 @@
+#默认的环境配置
+spring:
+  #定义使用的环境配置文件
+  profiles:
+    active: dev
+  #定义数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.100.16.254:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    #该模板默认HTML文件可删除
+    suffix: .html
+  mvc:
+    view:
+      suffix: .html
+
+#定义应用路径
+server:
+  servlet:
+    path:
+#自定义属性
+#页面大小
+page:
+  size: 6
+#自定义拦截路径
+interceptor:
+  path:
+    exclude: res/**,index,login
+#图片上传路径
+image:
+  path: G:\EMSystem\src\main\resources\static\img\
+#准考证模板路径
+admission:
+  path: G:\EMSystem\src\main\resources\static\doc\admission.doc
+  per: G:\EMSystem\src\main\resources\static\doc\per\
+---
+#开发环境配置
+spring:
+  profiles: dev
+server:
+  port: 8088
+logging:
+  level:
+    com.demo.dao: debug
+---
+#测试环境配置
+spring:
+  profiles: test
+server:
+  port: 8088
+
+---
+#生产环境配置
+spring:
+  profiles: prod
+server:
+  port: 8088
+
